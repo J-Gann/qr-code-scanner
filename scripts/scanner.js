@@ -3036,7 +3036,7 @@
                 // If QR scanner is closed too quickly, the stream is not closed => add timeout
                 await new Promise((resolve) => {
                     setTimeout(() => {
-                        WebQR.stream.getTracks()[0].stop();
+                        WebQR.stream?.getTracks()[0].stop();
                         resolve();
                     }, 500);
                 });
@@ -3105,6 +3105,7 @@
                 .catch((err) => {
                     // Catches error if no camera is available
                     console.error("ERR :::: ", err);
+                    WebQR.container.innerHTML = "<p>Camera is not available</p>" + WebQR.container.innerHTML
                 })
                 .then(function (stream) {
                     WebQR.video.srcObject = stream; // window.URL.createObjectURL(stream);
