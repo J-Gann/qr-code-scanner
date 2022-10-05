@@ -2925,71 +2925,6 @@
         return style.sheet;
     })();
 
-    function createGlobalComponent(options) {
-        options = options || {};
-        let container = document.createElement("div");
-        let lockLayer = document.createElement("div");
-        lockLayer.className = "QRScanner-lock-layer " + options.lockLayerClassName;
-        container.className = "QRScanner-container " + options.className;
-        let innerHTML = '<canvas id="QRScanner-canvasEl" width="640px" height="610px"></canvas>';
-        innerHTML += '<video id="QRScanner-videoEl" style="display: none;" width="600px" height="600px"></video>';
-        innerHTML +=
-            '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="submit" onclick="QRScannerTextHandler()"/> </div>';
-        container.innerHTML = innerHTML;
-        lockLayer.innerHTML = ".......";
-
-        addCSSRule(
-            ".QRScanner-container",
-            `position: fixed;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            box-sizing: border-box;
-            width: 660px;
-            height: 620px;
-            z-index: 999999999;
-            margin: auto;
-            padding: 10px;
-            display: block;
-            background-color: ${options.bgColor || "#f0f0f0"};
-            box-shadow: ${options.shadow || "0px 0px 10px #000"}
-        `
-        );
-        addCSSRule(
-            "#qr-scanner-input-container",
-            `text.align: center;
-            background-color: white;
-            padding: 2px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        `
-        );
-        addCSSRule(
-            ".QRScanner-lock-layer",
-            `position: fixed;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            box-sizing: border-box;
-            width: 100%;
-            height: 100%;
-            z-index: 999999995;
-            margin: auto;
-            display: block;
-            background-color: #000;
-            opacity: .3;
-        `
-        );
-
-        (options.parent || document.body).appendChild(container);
-        (options.lockLayerParent || document.body).appendChild(lockLayer);
-        WebQR.lockLayer = lockLayer;
-        WebQR.container = container;
-    }
-
     MODULE.initiate = function (opts) {
         let options = opts || {};
         (options.onResult =
@@ -3068,13 +3003,83 @@
 
         if (!initiated) {
             QRCodeDecoder(WebQR);
-            createGlobalComponent(options);
+
+
+            options = options || {};
+            let container = document.createElement("div");
+            let lockLayer = document.createElement("div");
+            lockLayer.className = "QRScanner-lock-layer " + options.lockLayerClassName;
+            container.className = "QRScanner-container " + options.className;
+            container.id = "QRScanner-container-id"
+            let innerHTML = '<canvas id="QRScanner-canvasEl" width="640px" height="610px"></canvas>';
+            innerHTML += '<video id="QRScanner-videoEl" style="display: none;" width="600px" height="600px"></video>';
+            innerHTML +=
+                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="submit" onclick="QRScannerTextHandler()"/> </div>';
+            container.innerHTML = innerHTML;
+            lockLayer.innerHTML = ".......";
+
+            addCSSRule(
+                ".QRScanner-container",
+                `position: fixed;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                box-sizing: border-box;
+                height: 60%;
+                z-index: 999999999;
+                margin: auto;
+                display: block;
+                background-color: ${options.bgColor || "#f0f0f0"};
+                box-shadow: ${options.shadow || "0px 0px 10px #000"}
+            `
+            );
+            addCSSRule(
+                "#qr-scanner-input-container",
+                `text.align: center;
+                background-color: white;
+                padding: 2px;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            `
+            );
+            addCSSRule(
+                ".QRScanner-lock-layer",
+                `position: fixed;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+                z-index: 999999995;
+                margin: auto;
+                display: block;
+                background-color: #000;
+                opacity: .3;
+            `
+            );
+
+            (options.parent || document.body).appendChild(container);
+            (options.lockLayerParent || document.body).appendChild(lockLayer);
+            WebQR.lockLayer = lockLayer;
+            WebQR.container = container;
+
+
+
             WebQR.video = document.getElementById("QRScanner-videoEl");
             WebQR.canvas = document.getElementById("QRScanner-canvasEl");
             WebQR.ctx = WebQR.canvas.getContext("2d");
 
+
+            WebQR.canvas.width = WebQR.container.offsetWidth
+            WebQR.canvas.height = WebQR.container.offsetHeight
+
+
             WebQR.draw = function (image) {
-                WebQR.ctx.drawImage(image, 0, 0, 640, 600);
+                WebQR.ctx.drawImage(image, 0, 0, WebQR.canvas.width, WebQR.canvas.height);
             };
 
             WebQR.qrcode.callback = async function (result) {
