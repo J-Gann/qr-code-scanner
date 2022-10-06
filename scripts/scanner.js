@@ -3026,11 +3026,12 @@
                 top: 0;
                 width: 80%;
                 right: 0;
-                max-width: 600px;
+                max-width: 300px;
+                max-height: 300px;
                 bottom: 0;
                 box-sizing: border-box;
                 height: 0;
-                padding-bottom: min(90%, 600px);
+                padding-bottom: min(90%, 300px);
                 z-index: 999999999;
                 margin: auto;
                 display: block;
