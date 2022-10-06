@@ -3010,10 +3010,10 @@
             lockLayer.className = "QRScanner-lock-layer " + options.lockLayerClassName;
             container.className = "QRScanner-container " + options.className;
             container.id = "QRScanner-container-id";
-            let innerHTML = '<canvas id="QRScanner-canvasEl" width="640px" height="610px"></canvas>';
-            innerHTML += '<video id="QRScanner-videoEl" style="display: none;" width="600px" height="600px"></video>';
+            let innerHTML = '<canvas id="QRScanner-canvasEl"></canvas>';
+            innerHTML += '<video id="QRScanner-videoEl" style="display: none;"></video>';
             innerHTML +=
-                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="submit" onclick="QRScannerTextHandler()"/> </div>';
+                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" size="10px" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="submit" onclick="QRScannerTextHandler()"/> </div>';
             container.innerHTML = innerHTML;
             lockLayer.innerHTML = ".......";
 
@@ -3022,10 +3022,13 @@
                 `position: fixed;
                 left: 0;
                 top: 0;
+                width: 80%;
                 right: 0;
+                max-width: 600px;
                 bottom: 0;
                 box-sizing: border-box;
-                height: 60%;
+                height: 0;
+                padding-bottom: min(90%, 600px);
                 z-index: 999999999;
                 margin: auto;
                 display: block;
@@ -3121,7 +3124,7 @@
                 .getUserMedia({ video: true })
                 .catch((err) => {
                     // Catches error if no camera is available
-                    console.error("ERR :::: ", err);
+                    console.error("camera not available");
                     WebQR.container.innerHTML = "<p>Camera is not available</p>" + WebQR.container.innerHTML;
                 })
                 .then(function (stream) {
