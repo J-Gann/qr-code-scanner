@@ -3004,13 +3004,12 @@
         if (!initiated) {
             QRCodeDecoder(WebQR);
 
-
             options = options || {};
             let container = document.createElement("div");
             let lockLayer = document.createElement("div");
             lockLayer.className = "QRScanner-lock-layer " + options.lockLayerClassName;
             container.className = "QRScanner-container " + options.className;
-            container.id = "QRScanner-container-id"
+            container.id = "QRScanner-container-id";
             let innerHTML = '<canvas id="QRScanner-canvasEl" width="640px" height="610px"></canvas>';
             innerHTML += '<video id="QRScanner-videoEl" style="display: none;" width="600px" height="600px"></video>';
             innerHTML +=
@@ -3067,16 +3066,12 @@
             WebQR.lockLayer = lockLayer;
             WebQR.container = container;
 
-
-
             WebQR.video = document.getElementById("QRScanner-videoEl");
             WebQR.canvas = document.getElementById("QRScanner-canvasEl");
             WebQR.ctx = WebQR.canvas.getContext("2d");
 
-
-            WebQR.canvas.width = WebQR.container.offsetWidth
-            WebQR.canvas.height = WebQR.container.offsetHeight
-
+            WebQR.canvas.width = WebQR.container.offsetWidth;
+            WebQR.canvas.height = WebQR.container.offsetHeight;
 
             WebQR.draw = function (image) {
                 WebQR.ctx.drawImage(image, 0, 0, WebQR.canvas.width, WebQR.canvas.height);
@@ -3092,8 +3087,14 @@
             WebQR.qrcode.callback = async function (result) {
                 await close(result);
             };
+
             WebQR.container.style.display = "block";
             WebQR.lockLayer.style.display = "block";
+
+            canvas = document.getElementById("QRScanner-canvasEl");
+            container = document.getElementById("QRScanner-container-id");
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
         }
 
         WebQR.lockLayer.onclick = async (event) => {
@@ -3110,7 +3111,7 @@
                 .catch((err) => {
                     // Catches error if no camera is available
                     console.error("ERR :::: ", err);
-                    WebQR.container.innerHTML = "<p>Camera is not available</p>" + WebQR.container.innerHTML
+                    WebQR.container.innerHTML = "<p>Camera is not available</p>" + WebQR.container.innerHTML;
                 })
                 .then(function (stream) {
                     WebQR.video.srcObject = stream; // window.URL.createObjectURL(stream);
