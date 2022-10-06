@@ -3177,6 +3177,7 @@
                         });
                         close(false);
                     }, options.timeout || 20000);
+                    document.getElementById("qr-scanner-text-input").focus();
                 });
         }
     };
