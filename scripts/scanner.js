@@ -2994,7 +2994,9 @@
 
         document.body.addEventListener("keyup", handleEscapeButtonPress);
 
-        window.QRScannerTextHandler = () => {
+        window.QRScannerTextHandler = (keydown) => {
+            if (keydown && event.keyCode != 13) return;
+
             const input = document.getElementById("qr-scanner-text-input");
             const data = input.value;
             input.value = "";
@@ -3013,7 +3015,7 @@
             let innerHTML = '<canvas id="QRScanner-canvasEl"></canvas>';
             innerHTML += '<video id="QRScanner-videoEl" style="display: none;"></video>';
             innerHTML +=
-                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" size="10px" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="Submit" onclick="QRScannerTextHandler()"/> </div>';
+                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" onkeydown="QRScannerTextHandler(true)" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="Submit" onclick="QRScannerTextHandler()" /> </div>';
             container.innerHTML = innerHTML;
             lockLayer.innerHTML = ".......";
 
