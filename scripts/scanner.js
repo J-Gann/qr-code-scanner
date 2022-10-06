@@ -3097,6 +3097,17 @@
             canvas.height = container.offsetHeight;
         }
 
+        function resizeCanvas() {
+            canvas = document.getElementById("QRScanner-canvasEl");
+            container = document.getElementById("QRScanner-container-id");
+            if (container.offsetWidth != 0) {
+                canvas.width = container.offsetWidth;
+                canvas.height = container.offsetHeight;
+            }
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+
         WebQR.lockLayer.onclick = async (event) => {
             options.onError({
                 code: "SCANNER_CANCELLED",
