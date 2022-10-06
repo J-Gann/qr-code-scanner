@@ -3032,18 +3032,22 @@
                 z-index: 999999999;
                 margin: auto;
                 display: block;
-                background-color: ${options.bgColor || "#f0f0f0"};
-                box-shadow: ${options.shadow || "0px 0px 10px #000"}
+                background-color: rgb(240, 240, 240);
+                box-shadow: rgb(0 0 0) 0px 0px 10px;
             `
             );
             addCSSRule(
                 "#qr-scanner-input-container",
                 `text.align: center;
                 background-color: white;
-                padding: 2px;
+                padding: 4px 10px;
                 width: fit-content;
+                margin-top: 10px;
                 margin-left: auto;
                 margin-right: auto;
+                box-shadow: rgb(0 0 0) 0px 0px 10px;
+                display: flex;
+                flex-direction: column;
             `
             );
             addCSSRule(
@@ -3061,6 +3065,29 @@
                 display: block;
                 background-color: #000;
                 opacity: .3;
+            `
+            );
+
+            addCSSRule(
+                "#qr-scanner-input-container > label",
+                `left: 0px;
+                right: 0px;
+                line-height: 1.5rem;
+            `
+            );
+
+            addCSSRule(
+                "#qr-scanner-input-container > label > input",
+                `width: calc(100% - 0.5rem);
+                height: 1.5rem;
+            `
+            );
+
+            addCSSRule(
+                "#qr-scanner-input-container > input",
+                `margin-top: 0.5rem;
+                line-height: 1.5rem;
+                height: 1.5rem;
             `
             );
 
