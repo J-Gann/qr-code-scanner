@@ -2980,7 +2980,7 @@
             }
             WebQR.container.style.display = "none";
             WebQR.lockLayer.style.display = "none";
-            WebQR.ctx.clearRect(0, 0, 640, 600);
+            WebQR.ctx.clearRect(0, 0, WebQR.canvas.width, WebQR.canvas.height);
             document.body.removeEventListener("keyup", handleEscapeButtonPress);
 
             if (result) {
