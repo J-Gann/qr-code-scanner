@@ -3010,7 +3010,7 @@
             let container = document.createElement("div");
             let lockLayer = document.createElement("div");
             lockLayer.className = "QRScanner-lock-layer";
-            container.className = "QRScanner-container ";
+            container.className = "QRScanner-container";
             container.id = "QRScanner-container-id";
             let innerHTML = '<canvas id="QRScanner-canvasEl"></canvas>';
             innerHTML += '<video id="QRScanner-videoEl" style="display: none;"></video>';
