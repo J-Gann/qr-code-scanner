@@ -2980,7 +2980,7 @@
             }
             WebQR.container.style.display = "none";
             WebQR.lockLayer.style.display = "none";
-            WebQR.ctx.clearRect(0, 0, 640, 600);
+            WebQR.ctx.clearRect(0, 0, WebQR.canvas.width, WebQR.canvas.height);
             document.body.removeEventListener("keyup", handleEscapeButtonPress);
 
             if (result) {
@@ -2994,7 +2994,9 @@
 
         document.body.addEventListener("keyup", handleEscapeButtonPress);
 
-        window.QRScannerTextHandler = () => {
+        window.QRScannerTextHandler = (keydown) => {
+            if (keydown && event.keyCode != 13) return;
+
             const input = document.getElementById("qr-scanner-text-input");
             const data = input.value;
             input.value = "";
@@ -3007,13 +3009,13 @@
             options = options || {};
             let container = document.createElement("div");
             let lockLayer = document.createElement("div");
-            lockLayer.className = "QRScanner-lock-layer " + options.lockLayerClassName;
-            container.className = "QRScanner-container " + options.className;
+            lockLayer.className = "QRScanner-lock-layer";
+            container.className = "QRScanner-container";
             container.id = "QRScanner-container-id";
             let innerHTML = '<canvas id="QRScanner-canvasEl"></canvas>';
             innerHTML += '<video id="QRScanner-videoEl" style="display: none;"></video>';
             innerHTML +=
-                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" size="10px" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="submit" onclick="QRScannerTextHandler()"/> </div>';
+                '<div id="qr-scanner-input-container"> <label for="qr-scanner-text-input"> QR-Content <input id="qr-scanner-text-input" onkeydown="QRScannerTextHandler(true)" /> </label> <input id="qr-scanner-text-input-button" type="submit" value="Submit" onclick="QRScannerTextHandler()" /> </div>';
             container.innerHTML = innerHTML;
             lockLayer.innerHTML = ".......";
 
@@ -3024,26 +3026,31 @@
                 top: 0;
                 width: 80%;
                 right: 0;
-                max-width: 600px;
+                max-width: 300px;
+                max-height: 300px;
                 bottom: 0;
                 box-sizing: border-box;
                 height: 0;
-                padding-bottom: min(90%, 600px);
+                padding-bottom: min(90%, 300px);
                 z-index: 999999999;
                 margin: auto;
                 display: block;
-                background-color: ${options.bgColor || "#f0f0f0"};
-                box-shadow: ${options.shadow || "0px 0px 10px #000"}
+                background-color: rgb(240, 240, 240);
+                box-shadow: rgb(0 0 0) 0px 0px 10px;
             `
             );
             addCSSRule(
                 "#qr-scanner-input-container",
                 `text.align: center;
                 background-color: white;
-                padding: 2px;
+                padding: 4px 10px;
                 width: fit-content;
+                margin-top: 10px;
                 margin-left: auto;
                 margin-right: auto;
+                box-shadow: rgb(0 0 0) 0px 0px 10px;
+                display: flex;
+                flex-direction: column;
             `
             );
             addCSSRule(
@@ -3061,6 +3068,29 @@
                 display: block;
                 background-color: #000;
                 opacity: .3;
+            `
+            );
+
+            addCSSRule(
+                "#qr-scanner-input-container > label",
+                `left: 0px;
+                right: 0px;
+                line-height: 1.5rem;
+            `
+            );
+
+            addCSSRule(
+                "#qr-scanner-input-container > label > input",
+                `width: calc(100% - 0.5rem);
+                height: 1.5rem;
+            `
+            );
+
+            addCSSRule(
+                "#qr-scanner-input-container > input",
+                `margin-top: 0.5rem;
+                line-height: 1.5rem;
+                height: 1.5rem;
             `
             );
 
@@ -3147,6 +3177,7 @@
                         });
                         close(false);
                     }, options.timeout || 20000);
+                    document.getElementById("qr-scanner-text-input").focus();
                 });
         }
     };
